@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import { openSettings } from '../../redux/actions';
+import { openSettings, saveUser } from '../../redux/actions';
 import GameSettings from '../../components/GameSettings';
+import logo from '../../trivia.png';
+import '../../App.css';
 
 const MIN_LENGTH = 0;
 
@@ -26,6 +29,15 @@ class Login extends Component {
     }
   };
 
+  handleClick = (event) => {
+    event.preventDefault();
+    const { email } = this.state;
+    const { dispatch, history } = this.props;
+    const changeEmailforImg = md5(email).toString();
+    dispatch(saveUser(this.state, changeEmailforImg));
+    history.push('/game');
+  };
+
   render() {
     const { email, name, buttonIsDisable } = this.state;
     const { dispatch, settings } = this.props;
@@ -33,42 +45,48 @@ class Login extends Component {
       settings
         ? <GameSettings />
         : (
-          <form>
-            <input
-              type="email"
-              name="email"
-              onChange={ this.handleChange }
-              value={ email }
-              placeholder="Digite seu email"
-              data-testid="input-gravatar-email"
-            />
-            <input
-              type="text"
-              name="name"
-              onChange={ this.handleChange }
-              value={ name }
-              placeholder="Digite seu nome"
-              data-testid="input-player-name"
-            />
+          <>
+            <header className="App-header">
+              <img src={ logo } className="App-logo" alt="logo" />
+              <p>SUA VEZ</p>
+            </header>
+            <form>
+              <input
+                type="email"
+                name="email"
+                onChange={ this.handleChange }
+                value={ email }
+                placeholder="Digite seu email"
+                data-testid="input-gravatar-email"
+              />
+              <input
+                type="text"
+                name="name"
+                onChange={ this.handleChange }
+                value={ name }
+                placeholder="Digite seu nome"
+                data-testid="input-player-name"
+              />
 
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handleClick }
-              disabled={ buttonIsDisable }
-            >
-              Play
+              <button
+                type="button"
+                data-testid="btn-play"
+                onClick={ this.handleClick }
+                disabled={ buttonIsDisable }
+              >
+                Play
 
-            </button>
-            <button
-              type="button"
-              data-testid="btn-settings"
-              onClick={ () => dispatch(openSettings()) }
-            >
-              Configurações
+              </button>
+              <button
+                type="button"
+                data-testid="btn-settings"
+                onClick={ () => dispatch(openSettings()) }
+              >
+                Configurações
 
-            </button>
-          </form>
+              </button>
+            </form>
+          </>
         )
 
     );
@@ -78,6 +96,9 @@ class Login extends Component {
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
   settings: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({

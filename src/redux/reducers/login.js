@@ -1,4 +1,4 @@
-import { CLOSE_SETTINGS, OPEN_SETTINGS } from '../actions';
+import { CLOSE_SETTINGS, OPEN_SETTINGS, SAVE_USER } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -6,6 +6,8 @@ const INITIAL_STATE = {
   category: '',
   difficulty: '',
   settings: false,
+  imgGravatar: '',
+  scoreBoard: 0,
 };
 
 const login = (state = INITIAL_STATE, action) => {
@@ -15,10 +17,19 @@ const login = (state = INITIAL_STATE, action) => {
       ...state,
       settings: true,
     });
+
   case CLOSE_SETTINGS:
     return ({
       ...state,
       settings: false,
+    });
+
+  case SAVE_USER:
+    return ({
+      ...state,
+      email: action.user.email,
+      name: action.user.name,
+      imgGravatar: action.img,
     });
 
   default:
