@@ -2,6 +2,7 @@ export const OPEN_SETTINGS = 'OPEN_SETTINGS';
 export const CLOSE_SETTINGS = 'CLOSE_SETTINGS';
 export const SAVE_USER = 'SAVE_USER';
 export const SAVE_IMG = 'SAVE_IMG';
+export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
 
 export const openSettings = () => ({
   type: OPEN_SETTINGS,
@@ -16,16 +17,20 @@ export const fetchGravatar = (email) => ({
   payload: `https://www.gravatar.com/avatar/${email}`,
 });
 
-// export function fetchGravatar(email) {
-//   const changeEmailforImg = md5(email).toString();
-//   const gravatar = `https://www.gravatar.com/avatar/${changeEmailforImg}`;
-//   console.log(gravatar);
-//   return (dispatch) => {
-//     fetch(gravatar)
-//       .then((response) => response.json())
-//       .then((data) => dispatch(saveImgGravatar(data)));
-//   };
-// }
+export const saveQuestions = (data) => ({
+  type: SAVE_QUESTIONS,
+  payload: data,
+});
+
+export function fetchQuestions() {
+  const token = localStorage.getItem('token');
+  const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  return (dispatch) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => dispatch(saveQuestions(data.results)));
+  };
+}
 
 export const saveUser = (stateComponent, img) => ({
   type: SAVE_USER,
