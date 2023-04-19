@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './trivia.png';
 import './App.css';
+import Login from './pages/login';
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
         <img src={ logo } className="App-logo" alt="logo" />
         <p>SUA VEZ</p>
       </header>
+      <Login />
     </div>
   );
 }
