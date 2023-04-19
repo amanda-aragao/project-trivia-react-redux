@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import { openSettings, saveUser } from '../../redux/actions';
+import { fetchQuestions, openSettings, saveUser } from '../../redux/actions';
 import GameSettings from '../../components/GameSettings';
 import logo from '../../trivia.png';
 import '../../App.css';
+import getTokens from '../../services/getTokes';
 
 const MIN_LENGTH = 0;
 
@@ -29,12 +30,14 @@ class Login extends Component {
     }
   };
 
-  handleClick = (event) => {
+  handleClick = async (event) => {
     event.preventDefault();
     const { email } = this.state;
     const { dispatch, history } = this.props;
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
+    await getTokens();
+    dispatch(fetchQuestions());
     history.push('/game');
   };
 
