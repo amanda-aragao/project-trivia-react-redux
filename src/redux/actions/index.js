@@ -3,6 +3,7 @@ export const CLOSE_SETTINGS = 'CLOSE_SETTINGS';
 export const SAVE_USER = 'SAVE_USER';
 export const SAVE_IMG = 'SAVE_IMG';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
+const RESPONSE_CODE = 3;
 
 export const openSettings = () => ({
   type: OPEN_SETTINGS,
@@ -22,13 +23,18 @@ export const saveQuestions = (data) => ({
   payload: data,
 });
 
-export function fetchQuestions() {
+export function fetchQuestions(history) {
   const token = localStorage.getItem('token');
   const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
   return (dispatch) => {
     fetch(url)
       .then((response) => response.json())
-      .then((data) => dispatch(saveQuestions(data.results)));
+      .then((data) => {
+        if (data.response_code === RESPONSE_CODE) {
+          history.push('/');
+        }
+        dispatch(saveQuestions(data.results));
+      });
   };
 }
 

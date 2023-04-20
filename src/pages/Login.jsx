@@ -37,7 +37,7 @@ class Login extends Component {
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
     await getTokens();
-    dispatch(fetchQuestions());
+    dispatch(fetchQuestions(history));
     history.push('/game');
   };
 
