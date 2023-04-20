@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const sortNumber = 0.5;
+const timerAnswer = 30000;
 
 class Questions extends Component {
   state = {
@@ -19,7 +20,7 @@ class Questions extends Component {
         answerDisabled: true,
         nextButton: true,
       });
-    }, 30000);
+    }, timerAnswer);
   }
 
   chooseAnswer = (event) => {
