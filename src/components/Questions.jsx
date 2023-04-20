@@ -10,7 +10,17 @@ class Questions extends Component {
     borderCorrect: 'unset',
     borderIncorrect: 'unset',
     nextButton: false,
+    answerDisabled: false,
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        answerDisabled: true,
+        nextButton: true,
+      });
+    }, 30000);
+  }
 
   chooseAnswer = (event) => {
     event.preventDefault();
@@ -32,7 +42,12 @@ class Questions extends Component {
   };
 
   render() {
-    const { renderQuestion, borderCorrect, borderIncorrect, nextButton } = this.state;
+    const { renderQuestion,
+      borderCorrect,
+      borderIncorrect,
+      nextButton,
+      answerDisabled,
+    } = this.state;
     const { questions } = this.props;
     return (
       <div className="questionsContainer">
@@ -60,6 +75,7 @@ class Questions extends Component {
                               data-testid="correct-answer"
                               key={ index }
                               style={ { border: borderCorrect } }
+                              disabled={ answerDisabled }
                             >
                               {question.correct_answer}
 
@@ -73,6 +89,7 @@ class Questions extends Component {
                             data-testid={ `wrong-answer${index}` }
                             key={ index }
                             style={ { border: borderIncorrect } }
+                            disabled={ answerDisabled }
                           >
                             {incorrect}
 
