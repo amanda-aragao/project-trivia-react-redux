@@ -202,6 +202,8 @@ class Questions extends Component {
 Questions.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   dispatch: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
