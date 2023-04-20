@@ -34,10 +34,10 @@ class Login extends Component {
     event.preventDefault();
     const { email } = this.state;
     const { dispatch, history } = this.props;
-    const changeEmailforImg = md5(email).toString();
-    dispatch(saveUser(this.state, changeEmailforImg));
     await getTokens();
     dispatch(fetchQuestions(history));
+    const changeEmailforImg = md5(email).toString();
+    dispatch(saveUser(this.state, changeEmailforImg));
     history.push('/game');
   };
 
