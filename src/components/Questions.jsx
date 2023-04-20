@@ -9,19 +9,30 @@ class Questions extends Component {
     renderQuestion: 0,
     borderCorrect: 'unset',
     borderIncorrect: 'unset',
+    nextButton: false,
+  };
+
+  chooseAnswer = (event) => {
+    event.preventDefault();
+    this.setState({
+      nextButton: true,
+      borderCorrect: '3px solid rgb(6, 240, 15)',
+      borderIncorrect: '3px solid red',
+    });
   };
 
   nextQuestion = (event) => {
     event.preventDefault();
     this.setState((prevState) => ({
       renderQuestion: prevState.renderQuestion + 1,
-      borderCorrect: '3px solid rgb(6, 240, 15)',
-      borderIncorrect: '3px solid red',
+      borderCorrect: 'unset',
+      borderIncorrect: 'unset',
+      nextButton: false,
     }));
   };
 
   render() {
-    const { renderQuestion, borderCorrect, borderIncorrect } = this.state;
+    const { renderQuestion, borderCorrect, borderIncorrect, nextButton } = this.state;
     const { questions } = this.props;
     return (
       <div className="questionsContainer">
@@ -45,7 +56,7 @@ class Questions extends Component {
                           return (
                             <button
                               type="button"
-                              onClick={ this.nextQuestion }
+                              onClick={ this.chooseAnswer }
                               data-testid="correct-answer"
                               key={ index }
                               style={ { border: borderCorrect } }
@@ -58,7 +69,7 @@ class Questions extends Component {
                         return (
                           <button
                             type="button"
-                            onClick={ this.nextQuestion }
+                            onClick={ this.chooseAnswer }
                             data-testid={ `wrong-answer${index}` }
                             key={ index }
                             style={ { border: borderIncorrect } }
@@ -69,6 +80,15 @@ class Questions extends Component {
                         );
                       })}
                   </div>
+                  {nextButton
+                  && (
+                    <button
+                      data-testid="btn-next"
+                      onClick={ (this.nextQuestion) }
+                    >
+                      Next
+
+                    </button>)}
                 </div>
               );
             }
