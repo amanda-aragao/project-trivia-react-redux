@@ -39,7 +39,14 @@ class Questions extends Component {
       borderCorrect: 'unset',
       borderIncorrect: 'unset',
       nextButton: false,
+      answerDisabled: false,
     }));
+    setTimeout(() => {
+      this.setState({
+        answerDisabled: true,
+        nextButton: true,
+      });
+    }, timerAnswer);
   };
 
   render() {
@@ -121,13 +128,11 @@ class Questions extends Component {
 
 Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
-    currency: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    exchangeRates: PropTypes.shape({
-      USD: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
+    category: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    correct_answer: PropTypes.string.isRequired,
   })).isRequired,
 };
 

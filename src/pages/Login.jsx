@@ -9,6 +9,7 @@ import '../App.css';
 import getTokens from '../services/getTokes';
 
 const MIN_LENGTH = 0;
+const waitingTime = 2000;
 
 class Login extends Component {
   state = {
@@ -38,7 +39,9 @@ class Login extends Component {
     dispatch(fetchQuestions(history));
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
-    history.push('/game');
+    setTimeout(() => {
+      history.push('/game');
+    }, waitingTime);
   };
 
   render() {
