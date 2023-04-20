@@ -33,7 +33,6 @@ class Questions extends Component {
                   <div className="buttons" data-testid="answer-options">
                     {[question.correct_answer,
                       ...question.incorrect_answers]
-                      // eslint-disable-next-line no-unused-vars
                       .sort((a, b) => {
                         console.log(a, b);
                         return sortNumber - Math.random();
