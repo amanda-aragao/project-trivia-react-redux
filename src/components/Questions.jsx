@@ -7,17 +7,21 @@ const sortNumber = 0.5;
 class Questions extends Component {
   state = {
     renderQuestion: 0,
+    borderCorrect: 'unset',
+    borderIncorrect: 'unset',
   };
 
   nextQuestion = (event) => {
     event.preventDefault();
     this.setState((prevState) => ({
       renderQuestion: prevState.renderQuestion + 1,
+      borderCorrect: '3px solid rgb(6, 240, 15)',
+      borderIncorrect: '3px solid red',
     }));
   };
 
   render() {
-    const { renderQuestion } = this.state;
+    const { renderQuestion, borderCorrect, borderIncorrect } = this.state;
     const { questions } = this.props;
     return (
       <div className="questionsContainer">
@@ -44,6 +48,7 @@ class Questions extends Component {
                               onClick={ this.nextQuestion }
                               data-testid="correct-answer"
                               key={ index }
+                              style={ { border: borderCorrect } }
                             >
                               {question.correct_answer}
 
@@ -56,6 +61,7 @@ class Questions extends Component {
                             onClick={ this.nextQuestion }
                             data-testid={ `wrong-answer${index}` }
                             key={ index }
+                            style={ { border: borderIncorrect } }
                           >
                             {incorrect}
 
