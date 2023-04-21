@@ -21,7 +21,7 @@ export default function App() {
       <Route
         exact
         path="/feedback"
-        component={ Feedback }
+        render={ (history) => <Feedback { ...history } /> }
       />
     </Switch>
   );

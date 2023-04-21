@@ -6,8 +6,14 @@ import Header from '../components/Header/Header';
 const validateAssertions = 3;
 
 class Feedback extends Component {
+  playAgain = (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     return (
       <div>
         <Header />
@@ -16,8 +22,25 @@ class Feedback extends Component {
           {
             assertions < validateAssertions ? 'Could be better...' : 'Well Done!'
           }
-
         </p>
+        <p>
+          Parabens, você fez:
+          {' '}
+          <span data-testid="feedback-total-score">{score}</span>
+        </p>
+        <p>
+          Parabens, você acertou:
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+          {' '}
+          {assertions > 1 ? 'perguntas!' : 'pergunta!'}
+        </p>
+        <button
+          data-testid="btn-play-again"
+          onClick={ this.playAgain }
+        >
+          Play Again
+        </button>
       </div>
     );
   }
@@ -25,10 +48,15 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);
