@@ -3,7 +3,9 @@ import userEvent from '@testing-library/user-event';
 import {renderWithRouterAndRedux} from '../tests/helpers/renderWithRouterAndRedux'
 import Login from '../pages/Login';
 import { questionsArray } from './helpers/mockQuestions';
+import { playerResults } from './helpers/mockFeedbak';
 import App from '../App';
+import Feedback from '../pages/results'
 
 
 const getTokens = require('../services/getTokes')
@@ -45,10 +47,6 @@ describe('Desenvolva testes referente a tela de Login', () => {
   });
   
   test('Teste se ao clicar no botão a função é chamada', async () => {
-    const token = { 
-      token : '7af87870a0384d27659a18b9bd620e0b2303b9d90e6258eac0fc20fb2817445c',
-    }
-
     const questions = {
       piada: 'Testando uma piada',
       correct: 'Essa é a correta',
@@ -91,5 +89,30 @@ describe('Desenvolva testes referente a tela de Login', () => {
     userEvent.click(configButton);
     const configTitle = screen.getByTestId('settings-title');
     expect(configTitle).toBeInTheDocument();
+  })
+})
+
+describe('Testa a Página de feedback', () => {
+  test('Testa se a página de feedback tem os resultados', () => {
+    renderWithRouterAndRedux(<Feedback />, playerResults)
+    const feedbackText = screen.getByTestId("feedback-text")
+    expect(feedbackText).toBeInTheDocument()
+    const feedbackScore = screen.getByTestId("feedback-total-score")
+    expect(feedbackScore).toBeInTheDocument()
+    const feedbackQuestions = screen.getByTestId("feedback-total-question")
+    expect(feedbackQuestions).toBeInTheDocument()
+    expect(feedbackQuestions.innerHTML).toBe(playerResults.player.assertions)
+  })
+
+  test('Testa se após clicar no botão "play Again" a página volta para o login', () => {
+    const {history} = renderWithRouterAndRedux(<Feedback />, playerResults)
+    const playAgainButton = screen.getByTestId("btn-play-again")
+    expect(playAgainButton).toBeInTheDocument();
+    userEvent.click(playAgainButton)
+
+    act(() => {
+      history.push('/')
+    })
+
   })
 })

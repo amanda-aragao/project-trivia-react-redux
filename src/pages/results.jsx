@@ -37,9 +37,9 @@ class Feedback extends Component {
         <p>
           Parabens, você acertou:
           {' '}
-          <span data-testid="feedback-total-question">{assertions}</span>
-          {' '}
-          {assertions > 1 ? 'perguntas!' : 'pergunta!'}
+          <span data-testid="feedback-total-question">
+            {assertions}
+          </span>
         </p>
         <button
           data-testid="btn-play-again"
