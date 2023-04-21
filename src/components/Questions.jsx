@@ -102,6 +102,7 @@ class Questions extends Component {
 
   nextQuestion = (event) => {
     const { renderQuestion } = this.state;
+    const { history, questions } = this.props;
     event.preventDefault();
     this.setState((prevState) => ({
       renderQuestion: prevState.renderQuestion + 1,
@@ -122,6 +123,10 @@ class Questions extends Component {
         nextButton: true,
       });
     }, timerAnswer);
+
+    if (renderQuestion === questions.length) {
+      history.push('/feedback');
+    }
   };
 
   randomizeQuestion = (index) => {
@@ -204,6 +209,8 @@ Questions.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  history: PropTypes.shape().isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

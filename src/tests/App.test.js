@@ -1,4 +1,4 @@
-import { act, getByRole, screen } from '@testing-library/react';
+import { act, getByRole, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {renderWithRouterAndRedux} from '../tests/helpers/renderWithRouterAndRedux'
 import Login from '../pages/Login';
@@ -62,11 +62,14 @@ describe('Desenvolva testes referente a tela de Login', () => {
       json: jest.fn().mockResolvedValue(token),
     });
     userEvent.click(buttonTest);
-    act(() => {
-      history.push('/game');
+    await waitFor(() => {
+      act(() => {
+        history.push('/game');
+      })
+  //   expect(global.fetch).toBeCalled(1);
+      expect(history.location.pathname).toBe('/game');
+
     })
-//   expect(global.fetch).toBeCalled(1);
-    expect(history.location.pathname).toBe('/game');
     
   });
 
