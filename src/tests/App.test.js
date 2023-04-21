@@ -2,6 +2,7 @@ import { act, getByRole, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {renderWithRouterAndRedux} from '../tests/helpers/renderWithRouterAndRedux'
 import Login from '../pages/Login';
+import { questionsArray } from './helpers/mockQuestions';
 import App from '../App';
 
 
@@ -48,7 +49,14 @@ describe('Desenvolva testes referente a tela de Login', () => {
       token : '7af87870a0384d27659a18b9bd620e0b2303b9d90e6258eac0fc20fb2817445c',
     }
 
-    const { history } = renderWithRouterAndRedux(<App />);
+    const questions = {
+      piada: 'Testando uma piada',
+      correct: 'Essa é a correta',
+      difficulty: 'hard',
+      token: '49565da92564d651a4d0f718f8e4553aca05847a27c1bb40cb40b02bfc2c018f'
+    };
+
+    const { history } = renderWithRouterAndRedux(<App />, questionsArray);
     const emailInput = screen.getByTestId(emailInputID);
     const nameInput = screen.getByTestId(nameInputId);
     userEvent.type(emailInput, user.email);
@@ -59,19 +67,22 @@ describe('Desenvolva testes referente a tela de Login', () => {
     
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValue(token),
+      json: jest.fn().mockResolvedValue(questions),
     });
-    userEvent.click(buttonTest);
-    await waitFor(() => {
-      act(() => {
-        history.push('/game');
-      })
-  //   expect(global.fetch).toBeCalled(1);
-      expect(history.location.pathname).toBe('/game');
 
+
+    userEvent.click(buttonTest);
+    act(() => {
+      history.push('/game')
     })
+
+    expect(history.location.pathname).toBe('/game');
+
+    const getQuestion = screen.findByText(/Testando uma piada/i)
+    await expect(getQuestion).toBeDefined();
     
   });
+
 
   test('Testa se o botão de configuração está funcionando', () => {
     renderWithRouterAndRedux(<Login />);

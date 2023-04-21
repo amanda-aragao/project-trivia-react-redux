@@ -32,6 +32,7 @@ class Game extends Component {
     isAnswerCorrect: false,
     assertions: 0,
     isComplete: false,
+    loading: true,
   };
 
   componentDidMount() {
@@ -143,6 +144,7 @@ class Game extends Component {
   randomizeQuestion = (index) => {
     const { questions } = this.props;
     this.setState({
+      loading: false,
       question: questions[index].question,
       category: questions[index].category,
       arrayAnswers: [...questions[index].incorrect_answers,
@@ -166,42 +168,45 @@ class Game extends Component {
       difficulty,
       timeAnswered,
       responseTime,
+      loading,
     } = this.state;
 
     return (
       <>
         <Header />
-        <div className="questionsContainer">
-          <div className="question">
-            <h2 data-testid="question-category">
-              {category}
-            </h2>
-            <p data-testid="question-text">{question}</p>
-            <p>{difficulty}</p>
-            <div className="buttons" data-testid="answer-options">
-              {arrayAnswers.map((answer, index) => (
-                <button
-                  type="button"
-                  onClick={ this.chooseAnswer }
-                  data-testid={ answer === correct
-                    ? 'correct-answer' : `wrong-answer${index}` }
-                  key={ answer }
-                  style={ answer === correct
-                    ? { border: borderCorrect } : { border: borderIncorrect } }
-                  disabled={ answerDisabled }
-                >
-                  {answer}
+        {loading ? <h2>Loading</h2>
+          : (
+            <div className="questionsContainer">
+              <div className="question">
+                <h2 data-testid="question-category">
+                  {category}
+                </h2>
+                <p data-testid="question-text">{question}</p>
+                <p>{difficulty}</p>
+                <div className="buttons" data-testid="answer-options">
+                  {arrayAnswers.map((answer, index) => (
+                    <button
+                      type="button"
+                      onClick={ this.chooseAnswer }
+                      data-testid={ answer === correct
+                        ? 'correct-answer' : `wrong-answer${index}` }
+                      key={ answer }
+                      style={ answer === correct
+                        ? { border: borderCorrect } : { border: borderIncorrect } }
+                      disabled={ answerDisabled }
+                    >
+                      {answer}
 
-                </button>
-              ))}
-            </div>
-            <p>
-              {timeAnswered > 0
-                ? `Você respondeu em ${responseTime} segundos!`
-                : `Faltam ${initialTime} segundos`}
+                    </button>
+                  ))}
+                </div>
+                <p>
+                  {timeAnswered > 0
+                    ? `Você respondeu em ${responseTime} segundos!`
+                    : `Faltam ${initialTime} segundos`}
 
-            </p>
-            {nextButton
+                </p>
+                {nextButton
                   && (
                     <button
                       data-testid="btn-next"
@@ -210,9 +215,9 @@ class Game extends Component {
                       Next
 
                     </button>)}
-          </div>
+              </div>
 
-        </div>
+            </div>)}
       </>
 
     );

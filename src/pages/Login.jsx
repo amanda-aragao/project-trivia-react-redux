@@ -9,7 +9,6 @@ import '../App.css';
 import getTokens from '../services/getTokes';
 
 const MIN_LENGTH = 0;
-const waitingTime = 2000;
 
 class Login extends Component {
   state = {
@@ -34,14 +33,12 @@ class Login extends Component {
   handleClick = async (event) => {
     event.preventDefault();
     const { email } = this.state;
-    const { dispatch, history } = this.props;
     await getTokens();
+    const { dispatch, history } = this.props;
     dispatch(fetchQuestions(history));
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
-    setTimeout(() => {
-      history.push('/game');
-    }, waitingTime);
+    history.push('/game');
   };
 
   render() {
