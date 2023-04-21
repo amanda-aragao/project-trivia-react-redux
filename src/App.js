@@ -4,6 +4,7 @@ import './App.css';
 import Login from './pages/Login';
 import Game from './pages/Game';
 import Feedback from './pages/results';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -22,6 +23,11 @@ export default function App() {
         exact
         path="/feedback"
         render={ (history) => <Feedback { ...history } /> }
+      />
+      <Route
+        exact
+        path="/ranking"
+        render={ (history) => <Ranking { ...history } /> }
       />
     </Switch>
   );
