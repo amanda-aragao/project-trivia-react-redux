@@ -3,6 +3,7 @@ export const CLOSE_SETTINGS = 'CLOSE_SETTINGS';
 export const SAVE_USER = 'SAVE_USER';
 export const SAVE_IMG = 'SAVE_IMG';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
+export const SAVE_POINTS = 'SAVE_POINTS';
 const RESPONSE_CODE = 3;
 
 export const openSettings = () => ({
@@ -42,4 +43,12 @@ export const saveUser = (stateComponent, img) => ({
   type: SAVE_USER,
   user: stateComponent,
   img: `https://www.gravatar.com/avatar/${img}`,
+});
+
+export const savePoints = (points, assertions, name, email) => ({
+  type: SAVE_POINTS,
+  payload: points,
+  assertions,
+  name,
+  email,
 });
