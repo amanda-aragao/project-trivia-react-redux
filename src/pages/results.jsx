@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header/Header';
 
 const validateAssertions = 3;
@@ -21,6 +22,10 @@ class Feedback extends Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
