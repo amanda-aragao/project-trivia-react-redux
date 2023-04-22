@@ -113,11 +113,11 @@ describe('Testa a Página de feedback', () => {
   })
 
   test('Testa se após clicar no botão "play Again" a página volta para o login', () => {
-    const {history} = renderWithRouterAndRedux(<Feedback />, playerResults)
+    const {history} = renderWithRouterAndRedux(<Feedback />, playerResults, '/feedback')
     const playAgainButton = screen.getByTestId("btn-play-again")
     expect(playAgainButton).toBeInTheDocument();
     // userEvent.click(playAgainButton)
-    // expect(history.location.pathname).toBe('/');
+    expect(history.location.pathname).toBe('/feedback');
 
   })
 })

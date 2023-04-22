@@ -38,8 +38,10 @@ export function fetchQuestions(history) {
         if (data.response_code === RESPONSE_CODE) {
           history.push('/');
         }
-        dispatch(saveQuestions(data.results));
-        history.push('/game');
+        if (data.response_code !== RESPONSE_CODE) {
+          dispatch(saveQuestions(data.results));
+          history.push('/game');
+        }
       });
   };
 }

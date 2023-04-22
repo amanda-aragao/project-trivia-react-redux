@@ -35,9 +35,9 @@ class Login extends Component {
     await getTokens();
     const { email } = this.state;
     const { dispatch, history } = this.props;
-    dispatch(fetchQuestions(history));
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
+    dispatch(fetchQuestions(history));
   };
 
   render() {
