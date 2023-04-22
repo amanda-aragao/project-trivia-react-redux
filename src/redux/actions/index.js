@@ -49,8 +49,13 @@ export const saveUser = (stateComponent, img) => ({
 });
 
 // eslint-disable-next-line max-params
-export const savePoints = (points, assertions, name, gravatar, email) => (
-  { type: SAVE_POINTS, payload: points, assertions, name, gravatar, email }
+export const savePoints = (points, assertions, props) => (
+  { type: SAVE_POINTS,
+    payload: points,
+    assertions,
+    name: props.name,
+    gravatar: props.gravatar,
+    email: props.email }
 );
 
 export const saveUserRank = (playerRank) => ({

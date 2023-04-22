@@ -65,13 +65,15 @@ class Game extends Component {
   sumPoints = () => {
     const { difficulty, timeAnswered, isAnswerCorrect } = this.state;
     const { dispatch, name, gravatar, email } = this.props;
+    const user = { name, gravatar, email };
+
     let sumPoints = 0;
 
     if (difficulty === 'easy' && isAnswerCorrect) {
       sumPoints = numbers.basePoints + (timeAnswered * numbers.easy);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
+        dispatch(savePoints(sumPoints, assertions, user));
       });
       return sumPoints;
     }
@@ -80,7 +82,7 @@ class Game extends Component {
       sumPoints = numbers.basePoints + (timeAnswered * numbers.medium);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
+        dispatch(savePoints(sumPoints, assertions, user));
       });
       return sumPoints;
     }
@@ -89,7 +91,7 @@ class Game extends Component {
       sumPoints = numbers.basePoints + (timeAnswered * numbers.hard);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
+        dispatch(savePoints(sumPoints, assertions, user));
       });
       return sumPoints;
     }
@@ -97,7 +99,7 @@ class Game extends Component {
     sumPoints = 0;
     this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
       const { assertions } = this.state;
-      dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
+      dispatch(savePoints(sumPoints, assertions, user));
     });
   };
 
