@@ -32,13 +32,12 @@ class Login extends Component {
 
   handleClick = async (event) => {
     event.preventDefault();
-    const { email } = this.state;
     await getTokens();
+    const { email } = this.state;
     const { dispatch, history } = this.props;
-    dispatch(fetchQuestions(history));
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
-    history.push('/game');
+    dispatch(fetchQuestions(history));
   };
 
   render() {

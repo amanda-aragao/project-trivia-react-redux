@@ -1,4 +1,4 @@
-import { CLOSE_SETTINGS, OPEN_SETTINGS, SAVE_USER } from '../actions';
+import { CLEAR_PLAYER, CLOSE_SETTINGS, OPEN_SETTINGS, SAVE_USER } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -30,6 +30,17 @@ const login = (state = INITIAL_STATE, action) => {
       email: action.user.email,
       name: action.user.name,
       imgGravatar: action.img,
+    });
+  case CLEAR_PLAYER:
+    return ({
+      ...state,
+      email: '',
+      name: '',
+      category: '',
+      difficulty: '',
+      settings: false,
+      imgGravatar: '',
+      scoreBoard: 0,
     });
 
   default:

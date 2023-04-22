@@ -4,6 +4,10 @@ export const SAVE_USER = 'SAVE_USER';
 export const SAVE_IMG = 'SAVE_IMG';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
 export const SAVE_POINTS = 'SAVE_POINTS';
+export const SAVE_RANK = 'SAVE_RANK';
+export const UPDATE_RANK = 'UPDATE_RANK';
+export const CLEAR_PLAYER = 'CLEAR_PLAYER';
+export const SAVE_ZERO_POINTS = 'SAVE_ZERO_POINTS';
 const RESPONSE_CODE = 3;
 
 export const openSettings = () => ({
@@ -33,8 +37,10 @@ export function fetchQuestions(history) {
       .then((data) => {
         if (data.response_code === RESPONSE_CODE) {
           history.push('/');
+        } else {
+          dispatch(saveQuestions(data.results));
+          history.push('/game');
         }
-        dispatch(saveQuestions(data.results));
       });
   };
 }
@@ -45,10 +51,33 @@ export const saveUser = (stateComponent, img) => ({
   img: `https://www.gravatar.com/avatar/${img}`,
 });
 
-export const savePoints = (points, assertions, name, email) => ({
-  type: SAVE_POINTS,
-  payload: points,
-  assertions,
-  name,
-  email,
+// eslint-disable-next-line max-params
+export const savePoints = (points, assertions, props) => (
+  { type: SAVE_POINTS,
+    payload: points,
+    assertions,
+    name: props.name,
+    gravatar: props.gravatar,
+    email: props.email }
+);
+
+export const saveZeroPoints = (points, props) => (
+  { type: SAVE_ZERO_POINTS,
+    payload: points,
+    assertions: 0,
+    name: props.name,
+    gravatar: props.gravatar,
+    email: props.email }
+);
+
+export const saveUserRank = (playerRank) => ({
+  type: SAVE_RANK,
+  payload: playerRank,
 });
+
+export const updateRank = (playerRank) => ({
+  type: UPDATE_RANK,
+  payload: playerRank,
+});
+
+export const clearPlayerState = () => ({ type: CLEAR_PLAYER });
