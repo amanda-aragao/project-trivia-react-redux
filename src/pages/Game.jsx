@@ -3,16 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { savePoints } from '../redux/actions';
 import Header from '../components/Header/Header';
-
-const sortNumber = 0.5;
-const timerAnswer = 30000;
-const SET_INTERVAL = 1000;
-const RESPONSE_TIME = 30;
-const easy = 1;
-const medium = 2;
-const hard = 3;
-const basePoints = 10;
-const completeTask = 4;
+import { numbers } from '../services/consts';
 
 class Game extends Component {
   state = {
@@ -26,7 +17,7 @@ class Game extends Component {
     arrayAnswers: [],
     correct: '',
     difficulty: '',
-    initialTime: RESPONSE_TIME,
+    initialTime: numbers.RESPONSE_TIME,
     timeAnswered: '',
     responseTime: 0,
     isAnswerCorrect: false,
@@ -44,14 +35,14 @@ class Game extends Component {
         borderCorrect: '3px solid rgb(6, 240, 15)',
         borderIncorrect: '3px solid red',
       });
-    }, timerAnswer);
+    }, numbers.timerAnswer);
     const { initialTime } = this.state;
     if (initialTime > 0) {
       setInterval(() => {
         this.setState((prevState) => ({
           initialTime: prevState.initialTime > 0 ? prevState.initialTime - 1 : 0,
         }));
-      }, SET_INTERVAL);
+      }, numbers.SET_INTERVAL);
     }
   }
 
@@ -64,7 +55,7 @@ class Game extends Component {
       borderIncorrect: '3px solid red',
       answerDisabled: true,
       timeAnswered: prevState.initialTime,
-      responseTime: RESPONSE_TIME - prevState.initialTime,
+      responseTime: numbers.RESPONSE_TIME - prevState.initialTime,
       isAnswerCorrect: correct === event.target.innerText,
     }), () => {
       this.sumPoints();
@@ -73,35 +64,41 @@ class Game extends Component {
 
   sumPoints = () => {
     const { difficulty, timeAnswered, isAnswerCorrect } = this.state;
-    const { dispatch, email, name } = this.props;
+    const { dispatch, name, gravatar, email } = this.props;
     let sumPoints = 0;
 
     if (difficulty === 'easy' && isAnswerCorrect) {
-      sumPoints = basePoints + (timeAnswered * easy);
+      sumPoints = numbers.basePoints + (timeAnswered * numbers.easy);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, email, name));
+        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
       });
       return sumPoints;
     }
 
     if (difficulty === 'medium' && isAnswerCorrect) {
-      sumPoints = basePoints + (timeAnswered * medium);
+      sumPoints = numbers.basePoints + (timeAnswered * numbers.medium);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, email, name));
+        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
       });
       return sumPoints;
     }
 
     if (difficulty === 'hard' && isAnswerCorrect) {
-      sumPoints = basePoints + (timeAnswered * hard);
+      sumPoints = numbers.basePoints + (timeAnswered * numbers.hard);
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        dispatch(savePoints(sumPoints, assertions, email, name));
+        dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
       });
       return sumPoints;
     }
+
+    sumPoints = 0;
+    this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
+      const { assertions } = this.state;
+      dispatch(savePoints(sumPoints, assertions, name, gravatar, email));
+    });
   };
 
   rerirectToFeedback = () => {
@@ -124,7 +121,7 @@ class Game extends Component {
       initialTime: 30,
       timeAnswered: 0,
       isAnswerCorrect: false,
-      isComplete: prevState.renderQuestion === completeTask,
+      isComplete: prevState.renderQuestion === numbers.completeTask,
     }), () => {
       this.rerirectToFeedback();
       const { isComplete } = this.state;
@@ -134,11 +131,8 @@ class Game extends Component {
     });
 
     setTimeout(() => {
-      this.setState({
-        answerDisabled: true,
-        nextButton: true,
-      });
-    }, timerAnswer);
+      this.setState({ answerDisabled: true, nextButton: true });
+    }, numbers.timerAnswer);
   };
 
   randomizeQuestion = (index) => {
@@ -148,7 +142,7 @@ class Game extends Component {
       question: questions[index].question,
       category: questions[index].category,
       arrayAnswers: [...questions[index].incorrect_answers,
-        questions[index].correct_answer].sort(() => sortNumber - Math.random()),
+        questions[index].correct_answer].sort(() => numbers.sortNumber - Math.random()),
       correct: questions[index].correct_answer,
       difficulty: questions[index].difficulty,
     });
@@ -236,6 +230,7 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  gravatar: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -244,6 +239,7 @@ Game.propTypes = {
 const mapStateToProps = (state) => ({
   email: state.login.email,
   name: state.login.name,
+  gravatar: state.login.imgGravatar,
   questions: state.game.questions,
 });
 

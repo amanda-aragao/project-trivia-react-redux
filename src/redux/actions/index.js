@@ -4,6 +4,9 @@ export const SAVE_USER = 'SAVE_USER';
 export const SAVE_IMG = 'SAVE_IMG';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
 export const SAVE_POINTS = 'SAVE_POINTS';
+export const SAVE_RANK = 'SAVE_RANK';
+export const UPDATE_RANK = 'UPDATE_RANK';
+export const CLEAR_PLAYER = 'CLEAR_PLAYER';
 const RESPONSE_CODE = 3;
 
 export const openSettings = () => ({
@@ -45,10 +48,19 @@ export const saveUser = (stateComponent, img) => ({
   img: `https://www.gravatar.com/avatar/${img}`,
 });
 
-export const savePoints = (points, assertions, name, email) => ({
-  type: SAVE_POINTS,
-  payload: points,
-  assertions,
-  name,
-  email,
+// eslint-disable-next-line max-params
+export const savePoints = (points, assertions, name, gravatar, email) => (
+  { type: SAVE_POINTS, payload: points, assertions, name, gravatar, email }
+);
+
+export const saveUserRank = (playerRank) => ({
+  type: SAVE_RANK,
+  payload: playerRank,
 });
+
+export const updateRank = (playerRank) => ({
+  type: UPDATE_RANK,
+  payload: playerRank,
+});
+
+export const clearPlayerState = () => ({ type: CLEAR_PLAYER });

@@ -9,6 +9,7 @@ import '../App.css';
 import getTokens from '../services/getTokes';
 
 const MIN_LENGTH = 0;
+const waitAPI = 1000;
 
 class Login extends Component {
   state = {
@@ -16,6 +17,10 @@ class Login extends Component {
     name: '',
     buttonIsDisable: true,
   };
+
+  async componentDidMount() {
+    await getTokens();
+  }
 
   handleChange = ({ target }) => {
     this.setState({
@@ -33,12 +38,13 @@ class Login extends Component {
   handleClick = async (event) => {
     event.preventDefault();
     const { email } = this.state;
-    await getTokens();
     const { dispatch, history } = this.props;
     dispatch(fetchQuestions(history));
     const changeEmailforImg = md5(email).toString();
     dispatch(saveUser(this.state, changeEmailforImg));
-    history.push('/game');
+    setTimeout(() => {
+      history.push('/game');
+    }, waitAPI);
   };
 
   render() {
