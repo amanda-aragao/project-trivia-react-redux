@@ -37,8 +37,7 @@ export function fetchQuestions(history) {
       .then((data) => {
         if (data.response_code === RESPONSE_CODE) {
           history.push('/');
-        }
-        if (data.response_code !== RESPONSE_CODE) {
+        } else {
           dispatch(saveQuestions(data.results));
           history.push('/game');
         }
