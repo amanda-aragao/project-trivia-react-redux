@@ -7,6 +7,7 @@ export const SAVE_POINTS = 'SAVE_POINTS';
 export const SAVE_RANK = 'SAVE_RANK';
 export const UPDATE_RANK = 'UPDATE_RANK';
 export const CLEAR_PLAYER = 'CLEAR_PLAYER';
+export const SAVE_ZERO_POINTS = 'SAVE_ZERO_POINTS';
 const RESPONSE_CODE = 3;
 
 export const openSettings = () => ({
@@ -38,6 +39,7 @@ export function fetchQuestions(history) {
           history.push('/');
         }
         dispatch(saveQuestions(data.results));
+        history.push('/game');
       });
   };
 }
@@ -53,6 +55,15 @@ export const savePoints = (points, assertions, props) => (
   { type: SAVE_POINTS,
     payload: points,
     assertions,
+    name: props.name,
+    gravatar: props.gravatar,
+    email: props.email }
+);
+
+export const saveZeroPoints = (points, props) => (
+  { type: SAVE_ZERO_POINTS,
+    payload: points,
+    assertions: 0,
     name: props.name,
     gravatar: props.gravatar,
     email: props.email }

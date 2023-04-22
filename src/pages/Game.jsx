@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { savePoints } from '../redux/actions';
+import { savePoints, saveZeroPoints } from '../redux/actions';
 import Header from '../components/Header/Header';
 import { numbers } from '../services/consts';
 
@@ -97,10 +97,7 @@ class Game extends Component {
     }
 
     sumPoints = 0;
-    this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
-      const { assertions } = this.state;
-      dispatch(savePoints(sumPoints, assertions, user));
-    });
+    dispatch(saveZeroPoints(sumPoints, user));
   };
 
   rerirectToFeedback = () => {

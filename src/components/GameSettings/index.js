@@ -11,6 +11,7 @@ class GameSettings extends Component {
         <h1 data-testid="settings-title">Configurações do jogo</h1>
         <button
           type="button"
+          data-testid="btn-close-settings"
           onClick={ () => dispatch(closeSettings()) }
         >
           Salvar Configurações

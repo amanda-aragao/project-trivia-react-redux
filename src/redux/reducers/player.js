@@ -1,4 +1,4 @@
-import { CLEAR_PLAYER, SAVE_POINTS } from '../actions';
+import { CLEAR_PLAYER, SAVE_POINTS, SAVE_ZERO_POINTS } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -15,6 +15,15 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.name,
       assertions: action.assertions,
+      score: Number(state.score) + Number(action.payload),
+      gravatarEmail: action.gravatar,
+      email: action.email,
+    });
+  case SAVE_ZERO_POINTS:
+    return ({
+      ...state,
+      name: action.name,
+      assertions: Number(action.assertions),
       score: Number(state.score) + Number(action.payload),
       gravatarEmail: action.gravatar,
       email: action.email,
